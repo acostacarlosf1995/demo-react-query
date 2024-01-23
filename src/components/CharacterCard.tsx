@@ -1,6 +1,13 @@
 import styled from "styled-components";
 
-export default function CharacterCard({ character }) {
+type CharacterData = {
+  image?: string;
+  name?: string;
+  status?: string;
+  species?: string;
+};
+
+export default function CharacterCard(character: CharacterData) {
   const CharacterCardContainer = styled.div`
     display: flex;
     flex-direction: column;

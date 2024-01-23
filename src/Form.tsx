@@ -1,16 +1,29 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 
-import { userSchema } from "./validations/userSchema";
+import { specieOptions, userSchema } from "./validations/userSchema";
+import {
+  Autocomplete,
+  FormControl,
+  FormHelperText,
+  TextField,
+} from "@mui/material";
+
+export type FormData = {
+  characterName: string;
+  specie: string;
+  image: string;
+  email: string;
+};
 
 export default function Form() {
   const [picture, setPicture] = useState(null);
   const [imgData, setImgData] = useState(null);
 
-  const onChangePicture = (e) => {
-    if (e.target.files[0]) {
+  const onChangePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
       console.log("picture: ", e.target.files);
       setPicture(e.target.files[0]);
       const reader = new FileReader();
@@ -22,13 +35,17 @@ export default function Form() {
   };
 
   const {
+    control,
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(userSchema),
   });
+
+  const onSubmit = async (data: FormData) => {
+    console.log("SUCCES", data);
+  };
 
   const FormContainer = styled.div`
     display: flex;
@@ -121,22 +138,20 @@ export default function Form() {
     display: flex;
     justify-content: start;
   `;
+  //   width: 100%;
+  //   padding: 10px 10px;
+  //   margin: 8px 0;
+  //   box-sizing: border-box;
+  //   border: none;
+  //   border-bottom: 2px solid #007bff;
+  //   outline: none;
+  //   transition: border-color 0.3s ease;
+  //   appearance: none;
 
-  const FormSelect = styled.select`
-    width: 100%;
-    padding: 10px 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 2px solid #007bff;
-    outline: none;
-    transition: border-color 0.3s ease;
-    appearance:none;
-
-    &:focus {
-      border-bottom: 2px solid #0056b3;
-    }
-  `;
+  //   &:focus {
+  //     border-bottom: 2px solid #0056b3;
+  //   }
+  // `;
 
   return (
     <FormContainer>
@@ -144,11 +159,7 @@ export default function Form() {
         Your characters are missing? Send us the info and we will be adding it
       </FormTitle>
 
-      <FormRows
-        onSubmit={handleSubmit((data) => {
-          console.log(data);
-        })}
-      >
+      <FormRows onSubmit={handleSubmit(onSubmit)}>
         <FormLabel htmlFor="characterName"> Character Name</FormLabel>
         <FormInput
           {...register("characterName")}
@@ -156,18 +167,67 @@ export default function Form() {
           id="characterName"
         />
         {errors.characterName?.message && (
-          <FormError>{errors.characterName?.message}</FormError>
+          <FormError>{`${errors.characterName?.message}`}</FormError>
         )}
 
-        <FormLabel htmlFor="specie">Specie</FormLabel>
-        <FormSelect {...register("specie")} type="text" id="specie">
-          <option value="human">Human</option>
-          <option value="alien">Alien</option>
-          <option value="other">Other</option>
-        </FormSelect>
-        {errors.specie?.message && (
-          <FormError>{errors.specie?.message}</FormError>
-        )}
+        <Controller
+          name="specie"
+          control={control}
+          render={({
+            field: { value, onChange, onBlur, ref },
+            fieldState: { error },
+          }) => (
+            <FormControl
+              sx={{
+                "& label": {
+                  color: "#FFFFFFDE",
+                  fontSize: "1rem",
+                },
+              }}
+            >
+              <Autocomplete
+                onChange={(
+                  _event: unknown,
+                  item: (typeof specieOptions)[number] | null
+                ) => {
+                  onChange(item);
+                }}
+                value={value ?? null}
+                options={specieOptions}
+                sx={{
+                  width: 350,
+                  color: "#FFFFFFDE",
+                  marginTop: "1em",
+                  "& input": {
+                    color: "#FFFFFFDE",
+                  },
+                  "& div": {
+                    "& button": {
+                      color: "#FFFFFFDE",
+                    },
+                  },
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    required
+                    error={Boolean(error)}
+                    onBlur={onBlur}
+                    inputRef={ref}
+                    label={"Select a specie"}
+                  />
+                )}
+              />
+              <FormHelperText
+                sx={{
+                  color: "error.main",
+                }}
+              >
+                {error?.message ?? ""}
+              </FormHelperText>
+            </FormControl>
+          )}
+        />
 
         <FormLabel htmlFor="image">Image</FormLabel>
         <FormFile
@@ -177,14 +237,11 @@ export default function Form() {
           onChange={onChangePicture}
         />
         {imgData && <FormImage src={imgData} alt="preview" />}
-        {errors.image?.message && (
-          <FormError>{errors.image?.message}</FormError>
-        )}
 
         <FormLabel htmlFor="email">Your email</FormLabel>
         <FormInput {...register("email")} type="email" id="email" />
         {errors.email?.message && (
-          <FormError>{errors.email?.message}</FormError>
+          <FormError>{`${errors.email?.message}`}</FormError>
         )}
 
         <FormButton type="submit">Submit</FormButton>

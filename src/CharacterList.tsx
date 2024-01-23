@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
+
 import CharacterCard from "./components/CharacterCard";
 import styled from "styled-components";
 import Form from "./Form";
+
+type CharacterData = {
+  id?: number;
+  character?: any;
+};
 
 const CharacterList = () => {
   const getCharacters = async () => {
@@ -16,7 +22,7 @@ const CharacterList = () => {
     width: 100%;
     gap: 1rem;
     justify-content: center;
-  `;  
+  `;
 
   const { data, isLoading, isSuccess, isError, error } = useQuery({
     queryKey: ["characters"],
@@ -35,8 +41,8 @@ const CharacterList = () => {
     isSuccess && (
       <div>
         <CharacterListContainer>
-          {data.results.map((character) => (
-            <CharacterCard key={character.id} character={character} />
+          {data.results.map((character: CharacterData) => (
+            <CharacterCard key={character.id} {...character} />
           ))}
         </CharacterListContainer>
         <Form />

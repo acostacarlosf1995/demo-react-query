@@ -4,8 +4,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.css";
 import CharacterList from "./CharacterList";
 
-function App() {
-  const queryClient = new QueryClient();
+function App(): JSX.Element {
+  const queryClient: QueryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>

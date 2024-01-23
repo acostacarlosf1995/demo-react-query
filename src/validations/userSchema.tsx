@@ -1,15 +1,15 @@
 import { z } from "zod";
 
-const specieOptions = ["human", "alien", "other"];
+export const specieOptions: Array<string> = ["human", "alien", "other"] as const;
 
-const MAX_FILE_SIZE = 1024 * 1024 * 5;
+// const MAX_FILE_SIZE = 1024 * 1024 * 5;
 
-const ACCEPTED_IMAGE_MIME_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
+// const ACCEPTED_IMAGE_MIME_TYPES = [
+//   "image/jpeg",
+//   "image/jpg",
+//   "image/png",
+//   "image/webp",
+// ];
 
 export const userSchema = z.object({
   characterName: z
