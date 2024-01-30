@@ -21,7 +21,8 @@ export const userSchema = z.object({
       message: "Character name must be at most 20 characters long",
     }),
   specie: z.enum(specieOptions, {
-    errorMap: () => ({ message: "Please select a valid specie" }),
+    required_error: "Please select a contact method",
+    invalid_type_error: 'Please select a contact method',
   }),
   // image: z
   //   .any()

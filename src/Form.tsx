@@ -18,6 +18,98 @@ export type FormData = {
   email: string;
 };
 
+const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const FormTitle = styled.h1`
+  font-size: 2rem;
+  margin-top: 2em;
+`;
+
+const FormRows = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FormLabel = styled.label`
+  margin-top: 1em;
+  margin-bottom: 0;
+  text-align: initial;
+`;
+
+const FormButton = styled.button`
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:active {
+    background-color: #004085;
+  }
+`;
+
+const FormImage = styled.img`
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  max-width: 200px;
+`;
+
+const FormInput = styled.input`
+  width: 100%;
+  padding: 10px 10px;
+  margin: 6px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid #007bff;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-bottom: 2px solid #0056b3;
+  }
+`;
+
+const FormFile = styled.input`
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid #007bff;
+  color: #007bff;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    border-bottom: 2px solid #0056b3;
+  }
+`;
+
+const FormError = styled.p`
+  color: red;
+  margin: 0;
+  display: flex;
+  justify-content: start;
+`;
+
 export default function Form() {
   const [picture, setPicture] = useState(null);
   const [imgData, setImgData] = useState(null);
@@ -44,114 +136,8 @@ export default function Form() {
   });
 
   const onSubmit = async (data: FormData) => {
-    console.log("SUCCES", data);
+    console.log("SUCCES", data, `PictureURL: ${picture}`);
   };
-
-  const FormContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  `;
-
-  const FormTitle = styled.h1`
-    font-size: 2rem;
-    margin-top: 2em;
-  `;
-
-  const FormRows = styled.form`
-    display: flex;
-    flex-direction: column;
-  `;
-
-  const FormLabel = styled.label`
-    margin-top: 1em;
-    margin-bottom: 0;
-    text-align: initial;
-  `;
-
-  const FormButton = styled.button`
-    margin-top: 1em;
-    margin-bottom: 0.5em;
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #0056b3;
-    }
-
-    &:active {
-      background-color: #004085;
-    }
-  `;
-
-  const FormImage = styled.img`
-    margin-top: 1em;
-    margin-bottom: 0.5em;
-    max-width: 200px;
-  `;
-
-  const FormInput = styled.input`
-    width: 100%;
-    padding: 10px 10px;
-    margin: 6px 0;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 2px solid #007bff;
-    outline: none;
-    transition: border-color 0.3s ease;
-
-    &:focus {
-      border-bottom: 2px solid #0056b3;
-    }
-  `;
-
-  const FormFile = styled.input`
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 2px solid #007bff;
-    color: #007bff;
-    outline: none;
-    transition: border-color 0.3s ease;
-
-    &:hover {
-      cursor: pointer;
-      border-bottom: 2px solid #0056b3;
-    }
-  `;
-
-  const FormError = styled.p`
-    color: red;
-    margin: 0;
-    display: flex;
-    justify-content: start;
-  `;
-  //   width: 100%;
-  //   padding: 10px 10px;
-  //   margin: 8px 0;
-  //   box-sizing: border-box;
-  //   border: none;
-  //   border-bottom: 2px solid #007bff;
-  //   outline: none;
-  //   transition: border-color 0.3s ease;
-  //   appearance: none;
-
-  //   &:focus {
-  //     border-bottom: 2px solid #0056b3;
-  //   }
-  // `;
 
   return (
     <FormContainer>
